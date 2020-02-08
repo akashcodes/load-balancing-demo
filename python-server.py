@@ -1,7 +1,7 @@
 from aiohttp import web
 
 async def hello(request):
-    return web.Response(text="Hello fucker!")
+    return web.FileResponse('./index.html')
 
 
 app = web.Application()
