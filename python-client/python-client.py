@@ -2,14 +2,14 @@ import aiohttp
 import asyncio
 import time
 
-URL = "http://3.223.122.238:8000"
-n = 1000
+URL = "http://3.223.122.238:3000"
+n = 10000
 
 
 async def fetch_url(client, url, ts, i):
     async with client.get(url) as resp:
         te = time.time()
-        print(i, resp.status, te - ts)
+        #print(i, resp.status, te - ts)
         return (resp.status, te - ts)
 
 
