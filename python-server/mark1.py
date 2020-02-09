@@ -2,7 +2,7 @@
 
 import socket
 
-HOST = '127.0.0.1'
+HOST = ''
 PORT = 8000
 
 
