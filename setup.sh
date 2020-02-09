@@ -14,6 +14,7 @@ npm install 13.8.0
 # install node frameworks
 npm install express
 npm install pug
+npm install node-fetch
 
 sudo apt install python3-pip
 
