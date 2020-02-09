@@ -5,21 +5,8 @@ from matplotlib import pyplot as plt
 from threading import Thread
 import numpy as np
 from queue import Queue
+import signal
 
-MAX_THREADS = 1
-
-
-
-num_theads = MAX_THREADS
-
-n = 10
-
-tests = [
-    (1, 1),
-    (1000, 10),
-    (10000, 100),
-    (100000, 1000)
-]
 
 url = "http://3.223.122.238:3000/dad-joke"
 
@@ -66,18 +53,40 @@ def sample(n, num_theads):
 
 
     q.join()
-    #return times
-    return np.mean(np.array(times))
+    return times
+    #return np.mean(np.array(times))
 
 
-a =[]
-for test in tests:
-    print(test)
-    r = sample(test[0], test[1])
-    print(r)
-    a.append(r)
-    #a.extend(sample(test[0], test[1]))
+if __name__ == "__main__":
+    
+    fname = input("Enter file name: ")
 
-a = np.array(a)
-plt.plot(a)
-plt.show()
+    n = 10
+    n = input("Number of threads?")
+    n = int(n)
+    
+    s = 10
+    s = input("How many times to sample?")
+    s = int(s)
+
+    tests = [
+        (n, n)
+    ] * s
+
+    a = []
+    
+    print("Starting... CTRL+C to quit anytime and save readings so far in the file")
+
+    try:
+        for test in tests:
+            print(test)
+            r = sample(test[0], test[1])
+            print(r)
+            #a.append(r)
+            a.extend(sample(test[0], test[1]))
+
+        np.savetxt(fname, a)
+    
+    except KeyboardInterrupt as e:
+        
+        np.savetxt(fname, a)

@@ -41,5 +41,5 @@ def print_responses(result):
     print(sum(res_time))
 
 loop = asyncio.get_event_loop()
-future = asyncio.ensure_future(run(40))
+future = asyncio.ensure_future(run(4000))
 loop.run_until_complete(future)
