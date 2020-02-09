@@ -117,15 +117,20 @@ if __name__ == "__main__":
     ] * s
 
     a = []
+
+    sample_time = []
     
     print("Starting... CTRL+C to quit anytime and save readings so far in the file")
 
     try:
         for sno, test in enumerate(tests):
+            st = time.time()
             print("Running sample", sno+1)
             
             r, t = sample(url, test[0], test[1])
-            
+            et = time.time()
+            print("Time taken - ", et-st)
+            sample_time.append(et-st)
             t = np.mean(np.array(t))
             a.append(r)
             #a.extend(t)
