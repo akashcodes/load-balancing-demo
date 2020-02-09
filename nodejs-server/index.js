@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const express = require("express");
 const path = require('path');
 const fetch = require('node-fetch');
@@ -14,7 +16,7 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '/views'));
 
 // Server PORT
-const port = 3000;
+const port = 80;
 
 //Detault message to send at GET /
 const WELCOME_RESPONSE = `
