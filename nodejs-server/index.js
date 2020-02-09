@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require('path');
-
+const fetch = require('node-fetch');
 const jokes = require("./jokes.json")
 
 const app = express();
@@ -27,6 +27,7 @@ const WELCOME_RESPONSE = `
             <li>GET /dad-joke ; to get a random Dad Joke.</li>
             <li>GET /dad-joke/:number ; with param(number=[1-99]) to get a particular Dad Joke Indexed[1 to 99].</li>
             <li>GET /palindrome/:string ; to check whether the "string" is a palindrome string</li>
+            <li>GET /fetch; fetch json dummy data</li>
             <br/><br/>
             Adios!
     </html>
@@ -73,6 +74,11 @@ app.get("/palindrome/:string", (req, res) => {
         res.send("True");
     else
         res.send("False");
+});
+
+
+app.get("/fetch", (req, res) => {
+    fetch('https://jsonplaceholder.typicode.com/todos/1').then(data => data.json()).then(json => res.send(json)).catch(err => res.send(err));
 });
 
 
