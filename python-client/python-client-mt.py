@@ -6,55 +6,78 @@ from threading import Thread
 import numpy as np
 from queue import Queue
 
-MAX_THREADS = 1000
+MAX_THREADS = 1
 
-q = Queue(maxsize=0)
+
 
 num_theads = MAX_THREADS
 
-n = 100000
-url = "http://3.223.122.238:8000"
-results = [False for i in range(n)]
+n = 10
 
-times = [0 for i in range(n)]
+tests = [
+    (1, 1),
+    (1000, 10),
+    (10000, 100),
+    (100000, 1000)
+]
 
-for i in range(n):
-    q.put(i)
+url = "http://3.223.122.238:3000/dad-joke"
 
 
-def fetch(url, results):
-    while not q.empty():
-        index = q.get()
-        start = time.monotonic()
-        try:
-            r = requests.get(url)
-            logging.info("Requested..." + url)
-            if r.status_code == 200:
-                results[index] = True
-            else:
+def sample(n, num_theads):
+    
+    q = Queue(maxsize=0)
+
+    results = [False for i in range(n)]
+
+    times = [0 for i in range(n)]
+
+    for i in range(n):
+        q.put(i)
+
+
+    def fetch(url, results):
+        while not q.empty():
+            index = q.get()
+            start = time.monotonic()
+            try:
+                r = requests.get(url)
+                logging.info("Requested..." + url)
+                if r.status_code == 200:
+                    results[index] = True
+                else:
+                    results[index] = False
+            except Exception as e:
+                logging.error(e)
                 results[index] = False
-        except Exception as e:
-            logging.error(e)
-            results[index] = False
-        end = round(time.monotonic() - start, 4)
-        #end = r.elapsed.total_seconds()
-        times[index] = end
-        print("Process{} completed".format(index))
-        q.task_done()
-    return True
+            end = round(time.monotonic() - start, 4)
+            #end = r.elapsed.total_seconds()
+            times[index] = end
+            #print("Process{} completed".format(index))
+            q.task_done()
+        return True
 
 
-for i in range(num_theads):
-    logging.debug('Starting thread ', i)
-    worker = Thread(target=fetch, args=[url, results])
-    worker.setDaemon(True)
-    worker.start()
+    for i in range(num_theads):
+        logging.debug('Starting thread ', i)
+        worker = Thread(target=fetch, args=[url, results])
+        worker.setDaemon(True)
+        worker.start()
 
 
-q.join()
+    q.join()
+    #return times
+    return np.mean(np.array(times))
 
 
-print(sum(results))
-a = np.array(times)
-plt.plot(times)
+a =[]
+for test in tests:
+    print(test)
+    r = sample(test[0], test[1])
+    print(r)
+    a.append(r)
+    #a.extend(sample(test[0], test[1]))
+
+a = np.array(a)
+plt.plot(a)
 plt.show()
