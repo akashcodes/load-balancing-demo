@@ -13,9 +13,10 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
  
         # Send message back to client
-        message = "Hello world!"
+        #message = "Hello world!"
         # Write content as utf-8 data
-        self.wfile.write(bytes(message, "utf8"))
+        with open('./index.html', 'rb') as file:
+            self.wfile.write(file.read())
         return
  
 def run():
