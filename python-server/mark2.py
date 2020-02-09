@@ -15,7 +15,9 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
         # Send message back to client
         #message = "Hello world!"
         # Write content as utf-8 data
-        with open('./index.html', 'rb') as file:
+        for i in range(1000000):
+            pass
+        with open('./python-server/index.html', 'rb') as file:
             self.wfile.write(file.read())
         return
  

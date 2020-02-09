@@ -20,8 +20,15 @@ while True:
     print('Connection address:', addr)
 
     while True:
-        data = conn.recv(BUFFER_SIZE)
+        data = conn.rec (BUFFER_SIZE)
         if not data: break
-        print("received data:", data)
-        response = bytes("Hello There!", "utf-8")
+        #print("received data:", data)
+        response = bytes("HTTP/1.1 200 OK\n"
+         +"Content-Type: text/html\n"
+         +"\n", "utf-8")
         conn.send(response)
+        with open("./python-server/index.html", "rb") as f:
+            #conn.send(f.read())
+            conn.sendfile(f)
+        conn.close()
+        #conn.send(response)
