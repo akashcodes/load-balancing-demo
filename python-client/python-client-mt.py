@@ -4,42 +4,54 @@ import time
 from matplotlib import pyplot as plt
 from threading import Thread
 import numpy as np
+from queue import Queue
 
-n = 1000
+MAX_THREADS = 1000
+
+q = Queue(maxsize=0)
+
+num_theads = MAX_THREADS
+
+n = 100000
 url = "http://3.223.122.238:8000"
 results = [False for i in range(n)]
+
 times = [0 for i in range(n)]
 
-def fetch(url, results, index):
-    start = time.monotonic()
-    try:
-        r = requests.get(url)
-        logging.info("Requested..." + url)
-        if r.status_code == 200:
-            results[index] = True
-        else:
+for i in range(n):
+    q.put(i)
+
+
+def fetch(url, results):
+    while not q.empty():
+        index = q.get()
+        start = time.monotonic()
+        try:
+            r = requests.get(url)
+            logging.info("Requested..." + url)
+            if r.status_code == 200:
+                results[index] = True
+            else:
+                results[index] = False
+        except Exception as e:
+            logging.error(e)
             results[index] = False
-    except Exception as e:
-        logging.error(e)
-        results[index] = False
-    #end = round(time.monotonic() - start, 4)
-    end = r.elapsed.total_seconds()
-    times[index] = end
+        end = round(time.monotonic() - start, 4)
+        #end = r.elapsed.total_seconds()
+        times[index] = end
+        print("Process{} completed".format(index))
+        q.task_done()
     return True
 
-# create list of threads
-threads = []
 
-for i in range(n):
-    process = Thread(target=fetch, args=[url, results, i])
-    process.start()
-    threads.append(process)
+for i in range(num_theads):
+    logging.debug('Starting thread ', i)
+    worker = Thread(target=fetch, args=[url, results])
+    worker.setDaemon(True)
+    worker.start()
 
 
-# We now pause execution on the main thread by 'joining' all of our started threads.
-# This ensures that each has finished processing the urls.
-for process in threads:
-    process.join()
+q.join()
 
 
 print(sum(results))
