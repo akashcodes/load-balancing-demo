@@ -21,6 +21,7 @@ while True:
 
     while True:
         data = conn.recv(BUFFER_SIZE)
+        data = bytes("Hello There!")
         if not data: break
         print("received data:", data)
         conn.send(data)
