@@ -28,7 +28,7 @@ const WELCOME_RESPONSE = `
             <u><h3>Hello, stranger! Welcome to my Cloud Computing assignment.</h3></u>
             <li>GET /dad-joke ; to get a random Dad Joke.</li>
             <li>GET /dad-joke/:number ; with param(number=[1-99]) to get a particular Dad Joke Indexed[1 to 99].</li>
-            <li>GET /palindrome/:string ; to check whether the "string" is a palindrome string</li>
+            <li>GET /loop/:num ; to run a for loop :num times</li>
             <li>GET /fetch; fetch json dummy data</li>
             <br/><br/>
             Adios!
@@ -57,25 +57,11 @@ app.get("/dad-joke/:number", (req, res) => {
 });
 
 
-// GET check is string is palidrome
-app.get("/palindrome/:string", (req, res) => {
-    var str = req.params["string"];
-    var flag = true;
-    var l = 0;
-    var r = str.length - 1;
-    while(l < r) {
-        if(str[l] != str[r]) {
-            flag = false;
-            break;
-        }
-        l++;
-        r--;
-    }
-
-    if(flag)
-        res.send("True");
-    else
-        res.send("False");
+// GET run loop :num times
+app.get("/loop/:num", (req, res) => {
+    var num = parseInt(req.params["num"], 10);
+    for(var i = 0; i < num; i++);
+    res.send("Done!")
 });
 
 
