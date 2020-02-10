@@ -1,12 +1,12 @@
 [Unit]
-Description=python server
-Documentation=https://google.com
+Description=nodejs server
+Documentation=https://github.com/akashcodes/load-balancing-demo
 After=network.target
 
 [Service]
 Type=simple
 User=ubuntu
-ExecStart=python3 /home/ubuntu/path/to/python/file.py
+ExecStart=/home/ubuntu/.nvm/versions/node/v13.8.0/bin/node /home/ubuntu/load-balancing-demo/server/index.js
 Restart=on-failure
 
 [Install]
