@@ -4,7 +4,8 @@ import time
 from threading import Thread
 import numpy as np
 from queue import Queue
-import signal
+import os
+
 
 
 url_normal = "http://ec2-18-212-227-130.compute-1.amazonaws.com/{}"
@@ -16,6 +17,9 @@ routes = [
     "fibo/{}",
     "fetch",
 ]
+
+OUTPUT_ROOT = "../output/"
+#FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 def sample(url, n, num_theads):
@@ -73,9 +77,12 @@ if __name__ == "__main__":
     """)
     utype = int(utype)
 
+    dire = OUTPUT_ROOT+"without load balancing/"
+
     url = None
     if utype == 1:
         print("Load Balanced Sample")
+        dire = OUTPUT_ROOT+"with load balancing/"
         url = url_scaling
     else:
         print("Sampling without load balancing")
@@ -111,7 +118,7 @@ if __name__ == "__main__":
     s = int(s)
     
     fname = input("Enter file name where to save data: ")
-
+    fname = dire+fname
     tests = [
         (nr, n)
     ] * s
@@ -130,11 +137,12 @@ if __name__ == "__main__":
             r, t = sample(url, test[0], test[1])
             et = time.time()
             print("Time taken - ", et-st)
+            print("-------")
             sample_time.append(et-st)
             t = np.mean(np.array(t))
-            a.append(r)
+            a.append(t)
             #a.extend(t)
-
+        print("Average response time:", np.mean(np.array(sample_time)))
         np.savetxt(fname, a)
     
     except KeyboardInterrupt as e:
