@@ -9,6 +9,7 @@ import os
 
 
 url_normal = "http://ec2-18-212-227-130.compute-1.amazonaws.com/{}"
+url_lb = "http://WebServer-no-AS-1296488345.us-east-1.elb.amazonaws.com/{}"
 url_scaling = "http://WebServer-395753930.us-east-1.elb.amazonaws.com/{}"
 
 routes = [
@@ -73,7 +74,8 @@ if __name__ == "__main__":
     utype = input("""
     Select:
     1 - Load balanced sampling
-    2 - Without load balanced sampling
+    2 - Load Balancing with auto-scaling
+    3 - Without load balanced sampling
     """)
     utype = int(utype)
 
@@ -83,6 +85,10 @@ if __name__ == "__main__":
     if utype == 1:
         print("Load Balanced Sample")
         dire = OUTPUT_ROOT+"with load balancing/"
+        url = url_lb
+    elif utype == 2:
+        print("Load Balanced Sample")
+        dire = OUTPUT_ROOT+"with load balancing autoscaling/"
         url = url_scaling
     else:
         print("Sampling without load balancing")

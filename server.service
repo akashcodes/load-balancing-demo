@@ -1,0 +1,13 @@
+[Unit]
+Description=python server
+Documentation=https://google.com
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+ExecStart=python3 /home/ubuntu/path/to/python/file.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
