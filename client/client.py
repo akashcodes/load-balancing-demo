@@ -15,7 +15,7 @@ url_scaling = "http://WebServer-395753930.us-east-1.elb.amazonaws.com/{}"
 routes = [
     "",
     "dad-joke",
-    "fibo/{}",
+    "loop/{}",
     "fetch",
 ]
 
@@ -99,7 +99,7 @@ if __name__ == "__main__":
         Select route type: 
         0 - GET /
         1 - GET /dad-joke
-        2 - GET /fibo/:number
+        2 - GET /loop/:number
         3 - GET /fetch
     """)
 
@@ -109,7 +109,7 @@ if __name__ == "__main__":
     url = url.format(routes[route])
 
     if route == 2:
-        param = input("Input n to find nth fibonacci number.")
+        param = input("Input n to run loop n times.")
         param = int(param)
         url = url.format(param)
 
@@ -145,7 +145,7 @@ if __name__ == "__main__":
             print("Time taken - ", et-st)
             print("-------")
             sample_time.append(et-st)
-            t = np.mean(np.array(t))
+            #t = np.mean(np.array(t))
             a.append(t)
             #a.extend(t)
         print("Average response time:", np.mean(np.array(sample_time)))
