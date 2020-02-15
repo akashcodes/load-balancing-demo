@@ -4,14 +4,9 @@ class WebsiteTasks(TaskSet):
     def on_start(self):
         self.client.get("/")
     
-    @task(60)
+    @task
     def dad_joke(self):
-        self.client.get("/dad-joke")
-    
-
-    @task(5)
-    def fetch(self):
-        self.client.get("/fetch")
+        self.client.get("/")
 
 
 class WebsiteUser(HttpLocust):
