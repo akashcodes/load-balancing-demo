@@ -11,6 +11,7 @@ import os
 url_normal = "http://ec2-54-163-51-234.compute-1.amazonaws.com/{}"
 url_lb = "http://WebServer-no-AS-1296488345.us-east-1.elb.amazonaws.com/{}"
 url_scaling = "http://WebServer-395753930.us-east-1.elb.amazonaws.com/{}"
+url_b="http://cloudserverlb-76348161.us-east-1.elb.amazonaws.com"
 
 routes = [
     "",
@@ -113,6 +114,7 @@ if __name__ == "__main__":
         param = int(param)
         url = url.format(param)
 
+    url = url_b
 
     nr = input("Number of requests?")
     nr = int(nr)

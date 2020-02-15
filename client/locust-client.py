@@ -6,9 +6,9 @@ class WebsiteTasks(TaskSet):
     
     @task
     def dad_joke(self):
-        self.client.get("/")
+        self.client.post("?n=10000")
 
 
 class WebsiteUser(HttpLocust):
     task_set = WebsiteTasks
-    wait_time = between(1, 1)
+    wait_time = between(1, 10)
