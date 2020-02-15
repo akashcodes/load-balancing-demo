@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-OUTPUT_ROOT = "../output/"
+OUTPUT_ROOT = "./output/"
 
 if __name__ == "__main__":
     
