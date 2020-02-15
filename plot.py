@@ -25,7 +25,7 @@ if __name__ == "__main__":
     else:
         print("Sampling without load balancing")
     
-    fname = input("Enter file name where to save data: ")
+    fname = input("Enter file name from where to load data: ")
     fname = dire+fname
 
     data = np.loadtxt(fname)
